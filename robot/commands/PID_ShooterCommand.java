@@ -30,13 +30,17 @@ public class PID_ShooterCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    
+    // Utilizes vision to calculate the approximate distance to the target.
     distanceToTarget = (Constants.GameAttributes.targetHeight - Constants.RobotAttributes.limeHeight) / 
       Math.tan((NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0) * (Math.PI / 180)
        + Constants.RobotAttributes.limeTilt));
     
+    // Using voodoo Physics, gets the velocity the projectile needs to be launched at in order to hit the targer.
     double velocity = (distanceToTarget / Math.cos(Constants.RobotAttributes.shooterAngle)) * Math.sqrt(9.80665 / 
       (2*Math.tan(Constants.RobotAttributes.shooterAngle)*distanceToTarget + (Constants.RobotAttributes.shooterEndHeight - Constants.GameAttributes.targetHeight)));
-
+    
+    // Starts up the motor at the supposed speed value, which is then calibrated by the PID Controller during execute().
     mShooter.manualShoot(velocity * Constants.ShooterMotors.sparksSpeedFactor);
     mShooter.setSetpoint(velocity * Constants.ShooterMotors.sparksSpeedFactor);
   }
@@ -44,13 +48,14 @@ public class PID_ShooterCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
+    // Starts the PID Controller, and maps output to shooter motors.
     mShooter.enable();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    // Resets PID Controller to its original state.
     mShooter.disable();
   }
 
