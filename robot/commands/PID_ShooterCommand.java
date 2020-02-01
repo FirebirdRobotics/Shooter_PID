@@ -36,7 +36,7 @@ public class PID_ShooterCommand extends CommandBase {
       Math.tan((NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0) * (Math.PI / 180)
        + Constants.RobotAttributes.limeTilt));
     
-    // Using voodoo Physics, gets the velocity the projectile needs to be launched at in order to hit the targer.
+    // Using "Voodoo" Physics, gets the velocity the projectile needs to be launched at in order to hit the target.
     double velocity = (distanceToTarget / Math.cos(Constants.RobotAttributes.shooterAngle)) * Math.sqrt(9.80665 / 
       (2*Math.tan(Constants.RobotAttributes.shooterAngle)*distanceToTarget + (Constants.RobotAttributes.shooterEndHeight - Constants.GameAttributes.targetHeight)));
     
